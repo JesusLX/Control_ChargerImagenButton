@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name" translatable="false">ChargerImagenButton</string>
+    <string name="click_to_load">Click to load</string>
+    <string name="chargerror">Error loading image</string>
+</resources>
