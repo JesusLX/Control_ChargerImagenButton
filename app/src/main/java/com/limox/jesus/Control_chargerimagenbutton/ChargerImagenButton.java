@@ -29,6 +29,7 @@ public class ChargerImagenButton extends RelativeLayout {
     private String mUrlImagen;
     private OnClickListener mButtonClickListener;
     private OnClickListener mImageClickListener;
+    private Target mTarget;
 
     public ChargerImagenButton(Context context) {
         super(context);
@@ -43,6 +44,29 @@ public class ChargerImagenButton extends RelativeLayout {
 
         btnCharger = (Button) findViewById(R.id.button1);
         ivImage = (ImageView) findViewById(R.id.imageview1);
+
+        mTarget = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                btnCharger.setVisibility(GONE);
+                ivImage.setImageDrawable(new BitmapDrawable(getContext().getResources(),bitmap));
+                ivImage.setVisibility(VISIBLE);
+                btnCharger.setText(R.string.click_to_load);
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+                btnCharger.setText(R.string.chargerror);
+                btnCharger.setVisibility(VISIBLE);
+                ivImage.setVisibility(GONE);
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                btnCharger.setText(R.string.loading);
+            }
+        };
+
         init();
 
         if (attrs != null){
@@ -64,42 +88,8 @@ public class ChargerImagenButton extends RelativeLayout {
         btnCharger.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnCharger.setVisibility(GONE);
 
-                Picasso.with(getContext()).load(mUrlImagen).placeholder(R.drawable.progress_animation).into(ivImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-
-                        ivImage.setVisibility(VISIBLE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        btnCharger.setText(R.string.chargerror);
-                        btnCharger.setVisibility(VISIBLE);
-                        ivImage.setVisibility(GONE);
-                    }
-                });
-                /*Picasso.with(getContext()).load(mUrlImagen).into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        btnCharger.setVisibility(GONE);
-                        ivImage.setBackground(new BitmapDrawable(getContext().getResources(),bitmap));
-                        ivImage.setVisibility(VISIBLE);
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                        btnCharger.setText(R.string.chargerror);
-                        btnCharger.setVisibility(VISIBLE);
-                        ivImage.setVisibility(GONE);
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        btnCharger.setText(R.string.loading);
-                    }
-                });*/
+                Picasso.with(getContext()).load(mUrlImagen).into(mTarget);
                 if (mButtonClickListener != null)
                     mButtonClickListener.onClick(btnCharger);
             }

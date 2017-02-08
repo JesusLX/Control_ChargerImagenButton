@@ -11,10 +11,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context="com.limox.jesus.Control_chargerimagenbutton.HomeActivity">
-<LinearLayout
-    android:orientation="vertical"
+<RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <com.limox.jesus.Control_chargerimagenbutton.ChargerImagenButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,13 +24,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/eso2"
+        android:layout_below="@+id/eso"
         app:text="@string/click_to_load"
         app:url_imagen="https://i.ytimg.com/vi/Au_e-byGcSc/maxresdefault.jpg"/>
     <com.limox.jesus.Control_chargerimagenbutton.ChargerImagenButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/eso3"
+        android:layout_below="@+id/eso2"
         app:text="@string/click_to_load"
         app:url_imagen="https://i.ytimg.com/vi/KXBKxx2b-rE/maxresdefault.jpg"/>
-</LinearLayout>
+</RelativeLayout>
 </ScrollView>

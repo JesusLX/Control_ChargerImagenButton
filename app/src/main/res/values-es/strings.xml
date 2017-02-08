@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">ChargerImagenButton</string>
     <string name="click_to_load">Cargar imagen</string>
+    <string name="chargerror">Error cargando la imagen</string>
+    <string name="loading">Cargando&#8230;</string>
 </resources>
