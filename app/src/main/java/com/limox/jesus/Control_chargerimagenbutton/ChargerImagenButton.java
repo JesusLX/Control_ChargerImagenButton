@@ -3,7 +3,9 @@ package com.limox.jesus.Control_chargerimagenbutton;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.media.Image;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +14,8 @@ import android.widget.RelativeLayout;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 
 /**
  * This witched is a charger of photos
@@ -22,7 +26,7 @@ public class ChargerImagenButton extends RelativeLayout {
 
     private Button btnCharger;
     private ImageView ivImage;
-    private String UrlImagen;
+    private String mUrlImagen;
     private OnClickListener mButtonClickListener;
     private OnClickListener mImageClickListener;
 
@@ -44,7 +48,7 @@ public class ChargerImagenButton extends RelativeLayout {
         if (attrs != null){
             TypedArray typedArray = getContext().obtainStyledAttributes(attrs,R.styleable.ChargerImagenButton);
             btnCharger.setText(typedArray.getString(R.styleable.ChargerImagenButton_text));
-            UrlImagen = typedArray.getString(R.styleable.ChargerImagenButton_url_imagen);
+            mUrlImagen = typedArray.getString(R.styleable.ChargerImagenButton_url_imagen);
             typedArray.recycle();
         }
     }
@@ -60,11 +64,12 @@ public class ChargerImagenButton extends RelativeLayout {
         btnCharger.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 btnCharger.setVisibility(GONE);
-                Picasso.with(getContext()).load(UrlImagen).placeholder(R.drawable.progress_animation).into(ivImage, new Callback() {
+
+                Picasso.with(getContext()).load(mUrlImagen).placeholder(R.drawable.progress_animation).into(ivImage, new Callback() {
                     @Override
                     public void onSuccess() {
+
                         ivImage.setVisibility(VISIBLE);
                     }
 
@@ -75,6 +80,26 @@ public class ChargerImagenButton extends RelativeLayout {
                         ivImage.setVisibility(GONE);
                     }
                 });
+                /*Picasso.with(getContext()).load(mUrlImagen).into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        btnCharger.setVisibility(GONE);
+                        ivImage.setBackground(new BitmapDrawable(getContext().getResources(),bitmap));
+                        ivImage.setVisibility(VISIBLE);
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                        btnCharger.setText(R.string.chargerror);
+                        btnCharger.setVisibility(VISIBLE);
+                        ivImage.setVisibility(GONE);
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        btnCharger.setText(R.string.loading);
+                    }
+                });*/
                 if (mButtonClickListener != null)
                     mButtonClickListener.onClick(btnCharger);
             }
